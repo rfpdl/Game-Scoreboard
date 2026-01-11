@@ -1,4 +1,4 @@
-.PHONY: up up-tunnel down stop build rebuild logs shell health clean restart open clear optimize status migrate migrate-fresh migrate-rollback seed test test-unit test-feature test-file cy-open cy-run cy-setup pw-test pw-test-local k6-http k6-ws stress-test assets build-assets dev install artisan tinker types fresh setup migration model controller help mysql admin
+.PHONY: up up-tunnel down stop build rebuild logs shell health clean restart open clear optimize status migrate migrate-fresh migrate-rollback seed test test-unit test-feature test-file cy-open cy-run cy-setup pw-test pw-test-local k6-http k6-ws stress-test assets build-assets dev install artisan tinker types fresh setup migration model controller help mysql admin prod-up prod-down prod-build prod-logs prod-shell prod-migrate
 
 # Default target
 help:
@@ -40,6 +40,14 @@ help:
 	@echo "  make k6-http         - Run k6 HTTP load test (Docker)"
 	@echo "  make k6-ws           - Run k6 WebSocket stress test (Docker)"
 	@echo "  make stress-test     - Run all stress tests"
+	@echo ""
+	@echo "Production:"
+	@echo "  make prod-build      - Build production Docker image"
+	@echo "  make prod-up         - Start production services"
+	@echo "  make prod-down       - Stop production services"
+	@echo "  make prod-logs       - View production logs"
+	@echo "  make prod-shell      - Shell into production app container"
+	@echo "  make prod-migrate    - Run migrations in production"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  make tinker          - Run Laravel Tinker"
@@ -287,6 +295,37 @@ health:
 	@echo "Checking services..."
 	@curl -sf http://localhost:9090 > /dev/null && echo "  Laravel: OK" || echo "  Laravel: Not responding"
 	@docker-compose exec mysql mysqladmin ping -h localhost -u gameleaderboard -psecret 2>/dev/null && echo "  MySQL: OK" || echo "  MySQL: Not responding"
+
+# =============================================================================
+# PRODUCTION
+# =============================================================================
+
+# Start production services
+prod-up:
+	docker compose -f docker-compose.prod.yml up -d
+	@echo ""
+	@echo "Production services started!"
+	@echo ""
+
+# Stop production services
+prod-down:
+	docker compose -f docker-compose.prod.yml down
+
+# Build production image
+prod-build:
+	docker compose -f docker-compose.prod.yml build
+
+# View production logs
+prod-logs:
+	docker compose -f docker-compose.prod.yml logs -f
+
+# Production shell
+prod-shell:
+	docker compose -f docker-compose.prod.yml exec app sh
+
+# Run migrations in production
+prod-migrate:
+	docker compose -f docker-compose.prod.yml exec app php artisan migrate --force
 
 # =============================================================================
 # DOCKER
