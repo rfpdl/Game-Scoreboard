@@ -38,7 +38,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.prod
-    image: gamescoreboard-app:${APP_VERSION:-latest}
+    image: phanlanx/gamescoreboard-app:${APP_VERSION:-latest}
     restart: unless-stopped
     expose:
       - "80"
@@ -58,12 +58,16 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == GameScoreboard
 
   reverb:
     build:
       context: .
       dockerfile: docker/Dockerfile.prod
-    image: gamescoreboard-app:${APP_VERSION:-latest}
+    image: phanlanx/gamescoreboard-app:${APP_VERSION:-latest}
     restart: unless-stopped
     expose:
       - "8080"
@@ -84,12 +88,16 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == GameScoreboard
 
   queue:
     build:
       context: .
       dockerfile: docker/Dockerfile.prod
-    image: gamescoreboard-app:${APP_VERSION:-latest}
+    image: phanlanx/gamescoreboard-app:${APP_VERSION:-latest}
     restart: unless-stopped
     environment:
       <<: *app-env
@@ -101,12 +109,16 @@ services:
     networks:
       - gamescoreboard-network
     command: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3", "--max-time=3600"]
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == GameScoreboard
 
   scheduler:
     build:
       context: .
       dockerfile: docker/Dockerfile.prod
-    image: gamescoreboard-app:${APP_VERSION:-latest}
+    image: phanlanx/gamescoreboard-app:${APP_VERSION:-latest}
     restart: unless-stopped
     environment:
       <<: *app-env
@@ -118,6 +130,10 @@ services:
     networks:
       - gamescoreboard-network
     command: ["sh", "-c", "while true; do php artisan schedule:run --verbose --no-interaction; sleep 60; done"]
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == GameScoreboard
 
   mysql:
     image: mysql:8.0
@@ -137,6 +153,10 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == GameScoreboard
 
   redis:
     image: redis:7-alpine
@@ -161,6 +181,10 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == GameScoreboard
 
 networks:
   dokploy-network:
