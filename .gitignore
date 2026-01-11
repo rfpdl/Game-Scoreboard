@@ -1,0 +1,43 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+/.claude/plans
+
+# Laravel framework cache
+/storage/framework/views/*
+/storage/framework/sessions/*
+!/storage/framework/views/.gitkeep
+
+# User uploads
+/storage/app/public/avatars/*
+/storage/app/public/uploads/*
+!/storage/app/public/avatars/.gitkeep
+!/storage/app/public/uploads/.gitkeep
+
+# Logs
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# SQLite database
+/database/*.sqlite
+
+# Cypress
+/cypress/screenshots
+/cypress/videos
+/cypress/downloads

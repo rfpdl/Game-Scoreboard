@@ -1,0 +1,152 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: gameleaderboard-app
+    ports:
+      - "9090:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=gameleaderboard
+      - DB_USERNAME=gameleaderboard
+      - DB_PASSWORD=secret
+      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - SESSION_DRIVER=redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - gameleaderboard-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: gameleaderboard-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=gameleaderboard
+      - MYSQL_USER=gameleaderboard
+      - MYSQL_PASSWORD=secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - gameleaderboard-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    container_name: gameleaderboard-redis
+    # Port exposed internally only - no host binding needed
+    volumes:
+      - redis_data:/data
+    networks:
+      - gameleaderboard-network
+
+  node:
+    image: node:20-alpine
+    container_name: gameleaderboard-node
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    networks:
+      - gameleaderboard-network
+
+  reverb:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: gameleaderboard-reverb
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=gameleaderboard
+      - DB_USERNAME=gameleaderboard
+      - DB_PASSWORD=secret
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - gameleaderboard-network
+    command: ["php", "artisan", "reverb:start", "--host=0.0.0.0", "--port=8081", "--debug"]
+
+  # Playwright container for WebSocket E2E tests
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.50.0-noble
+    container_name: gameleaderboard-playwright
+    working_dir: /app
+    volumes:
+      - .:/app
+      - playwright_node_modules:/app/node_modules
+    environment:
+      - BASE_URL=http://app
+      - CI=true
+    depends_on:
+      - app
+      - reverb
+    networks:
+      - gameleaderboard-network
+    profiles:
+      - testing
+    command: ["npx", "playwright", "test"]
+
+  # k6 container for load/stress testing
+  k6:
+    image: grafana/k6:latest
+    container_name: gameleaderboard-k6
+    working_dir: /scripts
+    volumes:
+      - ./tests/k6:/scripts
+    environment:
+      - BASE_URL=http://app
+      - WS_URL=ws://reverb:8081/app/local-key
+    depends_on:
+      - app
+      - reverb
+    networks:
+      - gameleaderboard-network
+    profiles:
+      - testing
+    command: ["run", "/scripts/http-load.js"]
+
+networks:
+  gameleaderboard-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
+  node_modules:
+  playwright_node_modules:

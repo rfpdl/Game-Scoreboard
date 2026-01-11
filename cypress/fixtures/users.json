@@ -1,0 +1,17 @@
+{
+    "playerA": {
+        "name": "Player A",
+        "email": "player.a@example.com",
+        "password": "password"
+    },
+    "playerB": {
+        "name": "Player B",
+        "email": "player.b@example.com",
+        "password": "password"
+    },
+    "admin": {
+        "name": "Admin User",
+        "email": "admin@example.com",
+        "password": "password"
+    }
+}

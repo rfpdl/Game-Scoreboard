@@ -1,0 +1,410 @@
+{
+  "cypress.factory": {
+    "name": "cypress.factory",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@factory",
+    "uri": "__cypress__/factory",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.login": {
+    "name": "cypress.login",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@login",
+    "uri": "__cypress__/login",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.logout": {
+    "name": "cypress.logout",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@logout",
+    "uri": "__cypress__/logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.artisan": {
+    "name": "cypress.artisan",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@artisan",
+    "uri": "__cypress__/artisan",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.run-php": {
+    "name": "cypress.run-php",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@runPhp",
+    "uri": "__cypress__/run-php",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.csrf-token": {
+    "name": "cypress.csrf-token",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@csrfToken",
+    "uri": "__cypress__/csrf_token",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.routes": {
+    "name": "cypress.routes",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@routes",
+    "uri": "__cypress__/routes",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.current-user": {
+    "name": "cypress.current-user",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@currentUser",
+    "uri": "__cypress__/current-user",
+    "method": [
+      "POST"
+    ]
+  },
+  "sanctum.csrf-cookie": {
+    "name": "sanctum.csrf-cookie",
+    "domain": null,
+    "action": "Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController@show",
+    "uri": "sanctum/csrf-cookie",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "": {
+    "name": null,
+    "domain": null,
+    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
+    "uri": "broadcasting/auth",
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
+    ]
+  },
+  "leaderboard": {
+    "name": "leaderboard",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\LeaderboardController@index",
+    "uri": "leaderboard/{game?}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "leaderboard.player.matches": {
+    "name": "leaderboard.player.matches",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\LeaderboardController@playerMatches",
+    "uri": "leaderboard/{game}/{user}/matches",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "dashboard": {
+    "name": "dashboard",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\DashboardController@index",
+    "uri": "dashboard",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "games.index": {
+    "name": "games.index",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\GameController@index",
+    "uri": "games",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "games.store": {
+    "name": "games.store",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\GameController@store",
+    "uri": "games",
+    "method": [
+      "POST"
+    ]
+  },
+  "games.update": {
+    "name": "games.update",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\GameController@update",
+    "uri": "games/{game}",
+    "method": [
+      "PUT"
+    ]
+  },
+  "games.toggle": {
+    "name": "games.toggle",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\GameController@toggle",
+    "uri": "games/{game}/toggle",
+    "method": [
+      "PATCH"
+    ]
+  },
+  "games.destroy": {
+    "name": "games.destroy",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\GameController@destroy",
+    "uri": "games/{game}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "matches.create": {
+    "name": "matches.create",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@create",
+    "uri": "matches/create",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "matches.store": {
+    "name": "matches.store",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@store",
+    "uri": "matches",
+    "method": [
+      "POST"
+    ]
+  },
+  "matches.join": {
+    "name": "matches.join",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@join",
+    "uri": "matches/join",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "matches.joinByShareToken": {
+    "name": "matches.joinByShareToken",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@joinByShareToken",
+    "uri": "matches/join/{token}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "matches.joinByCode": {
+    "name": "matches.joinByCode",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@joinByCode",
+    "uri": "matches/join",
+    "method": [
+      "POST"
+    ]
+  },
+  "matches.show": {
+    "name": "matches.show",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@show",
+    "uri": "matches/{uuid}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "matches.confirm": {
+    "name": "matches.confirm",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@confirm",
+    "uri": "matches/{uuid}/confirm",
+    "method": [
+      "POST"
+    ]
+  },
+  "matches.complete": {
+    "name": "matches.complete",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@complete",
+    "uri": "matches/{uuid}/complete",
+    "method": [
+      "POST"
+    ]
+  },
+  "matches.cancel": {
+    "name": "matches.cancel",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\MatchController@cancel",
+    "uri": "matches/{uuid}/cancel",
+    "method": [
+      "POST"
+    ]
+  },
+  "profile.edit": {
+    "name": "profile.edit",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\ProfileController@edit",
+    "uri": "profile",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "profile.update": {
+    "name": "profile.update",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\ProfileController@update",
+    "uri": "profile",
+    "method": [
+      "PATCH"
+    ]
+  },
+  "profile.destroy": {
+    "name": "profile.destroy",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\ProfileController@destroy",
+    "uri": "profile",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "register": {
+    "name": "register",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\RegisteredUserController@create",
+    "uri": "register",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "login": {
+    "name": "login",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\AuthenticatedSessionController@create",
+    "uri": "login",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.request": {
+    "name": "password.request",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\PasswordResetLinkController@create",
+    "uri": "forgot-password",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.email": {
+    "name": "password.email",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\PasswordResetLinkController@store",
+    "uri": "forgot-password",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.reset": {
+    "name": "password.reset",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\NewPasswordController@create",
+    "uri": "reset-password/{token}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.store": {
+    "name": "password.store",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\NewPasswordController@store",
+    "uri": "reset-password",
+    "method": [
+      "POST"
+    ]
+  },
+  "verification.notice": {
+    "name": "verification.notice",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\EmailVerificationPromptController",
+    "uri": "verify-email",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.verify": {
+    "name": "verification.verify",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\VerifyEmailController",
+    "uri": "verify-email/{id}/{hash}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.send": {
+    "name": "verification.send",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController@store",
+    "uri": "email/verification-notification",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.confirm": {
+    "name": "password.confirm",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ConfirmablePasswordController@show",
+    "uri": "confirm-password",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.update": {
+    "name": "password.update",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\PasswordController@update",
+    "uri": "password",
+    "method": [
+      "PUT"
+    ]
+  },
+  "logout": {
+    "name": "logout",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\AuthenticatedSessionController@destroy",
+    "uri": "logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "storage.local": {
+    "name": "storage.local",
+    "domain": null,
+    "action": "Closure",
+    "uri": "storage/{path}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  }
+}
