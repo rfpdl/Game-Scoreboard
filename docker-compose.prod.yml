@@ -39,10 +39,9 @@ services:
       context: .
       dockerfile: docker/Dockerfile.prod
     image: gamescoreboard-app:${APP_VERSION:-latest}
-    container_name: gamescoreboard-app
     restart: unless-stopped
-    ports:
-      - "${APP_PORT:-80}:80"
+    expose:
+      - "80"
     environment:
       <<: *app-env
     depends_on:
@@ -51,6 +50,7 @@ services:
       redis:
         condition: service_healthy
     networks:
+      - dokploy-network
       - gamescoreboard-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/up"]
@@ -64,10 +64,9 @@ services:
       context: .
       dockerfile: docker/Dockerfile.prod
     image: gamescoreboard-app:${APP_VERSION:-latest}
-    container_name: gamescoreboard-reverb
     restart: unless-stopped
-    ports:
-      - "${REVERB_PUBLIC_PORT:-8080}:8080"
+    expose:
+      - "8080"
     environment:
       <<: *app-env
     depends_on:
@@ -76,6 +75,7 @@ services:
       redis:
         condition: service_healthy
     networks:
+      - dokploy-network
       - gamescoreboard-network
     command: ["php", "artisan", "reverb:start", "--host=0.0.0.0", "--port=8080"]
     healthcheck:
@@ -90,7 +90,6 @@ services:
       context: .
       dockerfile: docker/Dockerfile.prod
     image: gamescoreboard-app:${APP_VERSION:-latest}
-    container_name: gamescoreboard-queue
     restart: unless-stopped
     environment:
       <<: *app-env
@@ -108,7 +107,6 @@ services:
       context: .
       dockerfile: docker/Dockerfile.prod
     image: gamescoreboard-app:${APP_VERSION:-latest}
-    container_name: gamescoreboard-scheduler
     restart: unless-stopped
     environment:
       <<: *app-env
@@ -123,7 +121,6 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: gamescoreboard-mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
@@ -143,7 +140,6 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: gamescoreboard-redis
     restart: unless-stopped
     command: >
       sh -c '
@@ -167,6 +163,8 @@ services:
       start_period: 10s
 
 networks:
+  dokploy-network:
+    external: true
   gamescoreboard-network:
     driver: bridge
 
