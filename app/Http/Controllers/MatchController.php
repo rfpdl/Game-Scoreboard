@@ -17,6 +17,7 @@ use App\Data\MatchData;
 use App\Models\Game;
 use App\Models\GameMatch;
 use App\Models\User;
+use App\Notifications\MatchInviteNotification;
 use DomainException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -294,7 +295,7 @@ final class MatchController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $match = GameMatch::where('uuid', $uuid)->firstOrFail();
+        $match = GameMatch::where('uuid', $uuid)->with('game')->firstOrFail();
         $invitedUser = User::findOrFail($request->user_id);
 
         // Check authorization - only match creator can invite
@@ -304,6 +305,9 @@ final class MatchController extends Controller
 
         try {
             $this->joinMatchAction->execute($invitedUser, $match);
+
+            // Send email notification if mail is configured
+            $invitedUser->notify(new MatchInviteNotification($match, $request->user()));
         } catch (DomainException $domainException) {
             return back()->withErrors(['match' => $domainException->getMessage()]);
         }

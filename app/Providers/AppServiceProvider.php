@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Setting;
+use Exception;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -42,5 +46,26 @@ final class AppServiceProvider extends ServiceProvider
 
         // Define admin gate
         Gate::define('admin', fn ($user): bool => $user->is_admin === true);
+
+        // Set mail from name to use app name from settings
+        $this->setMailFromName();
+    }
+
+    /**
+     * Set the mail "from" name dynamically from database settings.
+     */
+    private function setMailFromName(): void
+    {
+        // Skip if running in console without database (e.g., migrations)
+        if ($this->app->runningInConsole() && ! Schema::hasTable('settings')) {
+            return;
+        }
+
+        try {
+            $appName = Setting::get('app_name', config('branding.name'));
+            Config::set('mail.from.name', $appName);
+        } catch (Exception) {
+            // Database not available, use default
+        }
     }
 }
