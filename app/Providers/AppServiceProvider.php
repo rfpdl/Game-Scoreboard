@@ -56,12 +56,12 @@ final class AppServiceProvider extends ServiceProvider
      */
     private function setMailFromName(): void
     {
-        // Skip if running in console without database (e.g., migrations)
-        if ($this->app->runningInConsole() && ! Schema::hasTable('settings')) {
-            return;
-        }
-
         try {
+            // Skip if database isn't ready (migrations, tests, etc.)
+            if (! Schema::hasTable('settings')) {
+                return;
+            }
+
             $appName = Setting::get('app_name', config('branding.name'));
             Config::set('mail.from.name', $appName);
         } catch (Exception) {
